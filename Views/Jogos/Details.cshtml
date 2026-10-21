@@ -1,0 +1,16 @@
+@model JogoModel
+@{
+    ViewData["Title"] = Model.Nome;
+}
+<div class="page-breadcrumb"><a asp-controller="Jogos" asp-action="Index">Biblioteca</a><span aria-hidden="true">/</span><span>Detalhes do jogo</span></div>
+<header class="page-heading"><span class="eyebrow">UM JOGO. INÚMERAS POSSIBILIDADES.</span><h1>@Model.Nome<span class="heading-dot">.</span></h1><p>Todos os detalhes deste jogo na sua coleção.</p></header>
+<section class="surface details-surface" aria-labelledby="details-title">
+    <div class="surface-header"><span class="section-number" aria-hidden="true">01</span><h2 id="details-title">Detalhes do jogo</h2><span class="record-id">Registro #@Model.Id</span></div>
+    <dl class="details-grid">
+        <div class="detail-item detail-name"><dt>Nome do jogo</dt><dd>@Model.Nome</dd></div>
+        <div class="detail-item"><dt>Gênero</dt><dd>@Html.DisplayFor(model => model.Genero)</dd></div>
+        <div class="detail-item"><dt>Preço</dt><dd class="detail-price"><preco valor="@Model.Preco" /></dd></div>
+        <div class="detail-item"><dt>Data de lançamento</dt><dd><time datetime="@Model.DataLancamento.ToString("yyyy-MM-dd")">@Model.DataLancamento.ToString("dd 'de' MMMM 'de' yyyy", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"))</time></dd></div>
+    </dl>
+    <div class="form-actions"><a class="btn btn-secondary" asp-controller="Jogos" asp-action="Index">Voltar para biblioteca</a><a class="btn btn-primary" asp-controller="Jogos" asp-action="Edit" asp-route-id="@Model.Id">Editar jogo</a></div>
+</section>

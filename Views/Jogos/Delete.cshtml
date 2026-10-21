@@ -1,0 +1,20 @@
+@model JogoModel
+@{
+    ViewData["Title"] = "Excluir jogo";
+}
+<div class="page-breadcrumb"><a asp-controller="Jogos" asp-action="Index">Biblioteca</a><span aria-hidden="true">/</span><span>Excluir jogo</span></div>
+<header class="page-heading"><span class="eyebrow">REVISE ANTES DE CONTINUAR</span><h1>Excluir jogo<span class="heading-dot">.</span></h1><p>Confirme se este é o registro que você deseja remover.</p></header>
+<section class="surface delete-surface" aria-labelledby="delete-title">
+    <div class="delete-body">
+        <span class="danger-symbol" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/></svg></span>
+        <h2 id="delete-title">Remover da sua biblioteca?</h2>
+        <p>Você está prestes a excluir <strong>@Model.Nome</strong>.<br />Essa ação remove o registro e não pode ser desfeita.</p>
+        <dl class="delete-record"><div><dt>Jogo selecionado</dt><dd>@Model.Nome</dd></div><div><dt>Preço</dt><dd><preco valor="@Model.Preco" /></dd></div><div><dt>Lançamento</dt><dd>@Model.DataLancamento.ToString("dd/MM/yyyy")</dd></div></dl>
+        <dl class="delete-record"><div><dt>Gênero</dt><dd>@Html.DisplayFor(model => model.Genero)</dd></div></dl>
+    </div>
+    <form asp-controller="Jogos" asp-action="Delete" asp-route-id="@Model.Id" method="post" asp-antiforgery="true">
+        <input asp-for="Id" type="hidden" />
+        <div asp-validation-summary="All" class="validation-summary delete-validation" role="alert"></div>
+        <div class="form-actions"><a class="btn btn-secondary" asp-controller="Jogos" asp-action="Index">Cancelar</a><button type="submit" class="btn btn-danger">Confirmar exclusão</button></div>
+    </form>
+</section>

@@ -1,0 +1,20 @@
+@model JogoModel
+@{
+    ViewData["Title"] = "Editar jogo";
+}
+<div class="page-breadcrumb"><a asp-controller="Jogos" asp-action="Index">Biblioteca</a><span aria-hidden="true">/</span><a asp-controller="Jogos" asp-action="Details" asp-route-id="@Model.Id">@Model.Nome</a><span aria-hidden="true">/</span><span>Editar</span></div>
+<header class="page-heading"><span class="eyebrow">CUIDE DA SUA COLEÇÃO</span><h1>Editar jogo<span class="heading-dot">.</span></h1><p>Atualize os detalhes de <strong>@Model.Nome</strong>.</p></header>
+<div class="editor-layout">
+    <section class="surface form-surface" aria-labelledby="form-title">
+        <div class="surface-header"><span class="section-number" aria-hidden="true">01</span><h2 id="form-title">Informações do jogo</h2></div>
+        <form asp-controller="Jogos" asp-action="Edit" asp-route-id="@Model.Id" method="post" asp-antiforgery="true">
+            <input asp-for="Id" type="hidden" />
+            <div class="form-body"><partial name="_JogoForm" model="Model" /></div>
+            <div class="form-actions"><a class="btn btn-secondary" asp-controller="Jogos" asp-action="Index">Cancelar</a><button type="submit" class="btn btn-primary">Salvar alterações</button></div>
+        </form>
+    </section>
+    <aside class="editor-aside"><span class="aside-line" aria-hidden="true"></span><span class="eyebrow">ATENÇÃO AOS DETALHES</span><h2>Uma coleção<br />sempre em dia.</h2><p>Revise as informações antes de salvar. Você também pode cancelar para voltar à biblioteca.</p><span class="aside-signature">GAMEVAULT / COLLECTION</span></aside>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

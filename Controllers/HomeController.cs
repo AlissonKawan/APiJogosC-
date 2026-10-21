@@ -8,7 +8,7 @@ namespace ApiJogosMVC.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Jogos");
         }
 
         public IActionResult Privacy()

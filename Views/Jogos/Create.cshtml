@@ -1,0 +1,19 @@
+@model JogoModel
+@{
+    ViewData["Title"] = "Adicionar jogo";
+}
+<div class="page-breadcrumb"><a asp-controller="Jogos" asp-action="Index">Biblioteca</a><span aria-hidden="true">/</span><span>Adicionar jogo</span></div>
+<header class="page-heading"><span class="eyebrow">MAIS UMA HISTÓRIA NA COLEÇÃO</span><h1>Adicionar jogo<span class="heading-dot">.</span></h1><p>Preencha os detalhes e dê um lugar à sua próxima aventura.</p></header>
+<div class="editor-layout">
+    <section class="surface form-surface" aria-labelledby="form-title">
+        <div class="surface-header"><span class="section-number" aria-hidden="true">01</span><h2 id="form-title">Informações do jogo</h2></div>
+        <form asp-controller="Jogos" asp-action="Create" method="post" asp-antiforgery="true">
+            <div class="form-body"><partial name="_JogoForm" model="Model" /></div>
+            <div class="form-actions"><a class="btn btn-secondary" asp-controller="Jogos" asp-action="Index">Cancelar</a><button type="submit" class="btn btn-primary">Cadastrar jogo <span aria-hidden="true">↗</span></button></div>
+        </form>
+    </section>
+    <aside class="editor-aside"><span class="aside-line" aria-hidden="true"></span><span class="eyebrow">SUA BIBLIOTECA, DO SEU JEITO</span><h2>Cada jogo é<br />um novo começo.</h2><p>Nome, gênero, preço e lançamento: os detalhes que deixam sua coleção organizada e fácil de consultar.</p><span class="aside-signature">GAMEVAULT / COLLECTION</span></aside>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

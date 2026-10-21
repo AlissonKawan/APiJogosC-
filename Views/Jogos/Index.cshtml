@@ -1,0 +1,100 @@
+@model IEnumerable<JogoModel>?
+@{
+    ViewData["Title"] = "Biblioteca de Jogos";
+    var jogos = Model?.ToList();
+    var pesquisa = Context.Request.Query["nome"].ToString();
+    var pesquisando = !string.IsNullOrWhiteSpace(pesquisa);
+    var preview = ViewData["LibraryPreview"] is true;
+    var canCreate = !preview && MvcActions.ActionDescriptors.Items.OfType<Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor>().Any(item => item.ControllerName == "Jogos" && item.ActionName == "Create");
+}
+<section class="library-hero" aria-labelledby="library-title">
+    <div class="hero-copy">
+        <span class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span> SEU UNIVERSO, ORGANIZADO</span>
+        <h1 id="library-title">Biblioteca de <span>Jogos</span></h1>
+        <p>Grandes histórias merecem um lugar especial.<br class="desktop-break" /> Organize sua coleção e encontre sua próxima aventura.</p>
+        @if (canCreate)
+        {
+            <a class="btn btn-primary" asp-controller="Jogos" asp-action="Create"><span class="plus" aria-hidden="true">+</span> Adicionar jogo</a>
+        }
+        else
+        {
+            <button class="btn btn-primary" type="button" disabled><span class="plus" aria-hidden="true">+</span> Adicionar jogo</button>
+        }
+    </div>
+    <div class="vault-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="art-cross cross-one">+</div><div class="art-cross cross-two">+</div>
+        <div class="game-case case-back"><span></span></div>
+        <div class="game-case case-front">
+            <div class="case-top"><span>GV</span><span>COLLECTION</span></div>
+            <svg class="controller-art" viewBox="0 0 160 110" fill="none"><path d="M44 25c-11 0-18 8-21 21L12 80c-3 15 9 23 19 13l21-21h56l21 21c10 10 22 2 19-13l-11-34c-3-13-10-21-21-21H44Z"/><path d="M47 40v28M33 54h28"/><circle cx="112" cy="45" r="5"/><circle cx="126" cy="59" r="5"/><path d="M69 44h22"/></svg>
+            <div class="case-bottom"><span>PLAY. COLLECT. REPEAT.</span><span class="case-bars"></span></div>
+        </div>
+        <span class="art-caption">UM LUGAR PARA CADA AVENTURA</span>
+    </div>
+</section>
+<section class="collection-section" aria-labelledby="collection-title">
+    <div class="section-heading">
+        <div class="section-title"><span class="section-number" aria-hidden="true">01</span><h2 id="collection-title">Sua coleção</h2>
+            @if (jogos is not null)
+            {
+                <span class="count-badge">@jogos.Count @(jogos.Count == 1 ? "jogo" : "jogos")@(pesquisando ? " na pesquisa" : "")</span>
+            }
+        </div>
+        <span class="section-note">Todas as suas histórias, em um só lugar.</span>
+    </div>
+    <div class="collection-panel">
+        <form asp-controller="Jogos" asp-action="Index" method="get" class="search-toolbar" role="search" aria-label="Pesquisar jogos">
+            <div class="search-field">
+                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+                <label for="nome" class="visually-hidden">Pesquisar pelo nome do jogo</label>
+                <input type="search" id="nome" name="nome" value="@pesquisa" placeholder="Buscar um jogo pelo nome..." disabled="@preview" />
+            </div>
+            <button type="submit" class="btn btn-secondary btn-search" disabled="@preview">Pesquisar</button>
+            @if (pesquisando && !preview)
+            {
+                <a class="text-link" asp-controller="Jogos" asp-action="Index">Limpar pesquisa</a>
+            }
+        </form>
+        @if (jogos is { Count: > 0 })
+        {
+            <div class="table-responsive">
+                <table class="games-table">
+                    <caption class="visually-hidden">Jogos da biblioteca: nome, gênero, preço, lançamento e ações.</caption>
+                    <thead><tr><th scope="col">Jogo</th><th scope="col">Gênero</th><th scope="col">Preço</th><th scope="col">Lançamento</th><th scope="col" class="actions-column">Ações</th></tr></thead>
+                    <tbody>
+                        @foreach (var jogo in jogos)
+                        {
+                            <tr>
+                                <td><div class="game-name"><span class="game-monogram" aria-hidden="true">@(string.IsNullOrWhiteSpace(jogo.Nome) ? "GV" : jogo.Nome.Trim()[..1].ToUpperInvariant())</span><a asp-controller="Jogos" asp-action="Details" asp-route-id="@jogo.Id">@jogo.Nome</a></div></td>
+                                <td>@Html.DisplayFor(_ => jogo.Genero)</td>
+                                <td class="price-cell"><preco valor="@jogo.Preco" /></td>
+                                <td><time datetime="@jogo.DataLancamento.ToString("yyyy-MM-dd")">@jogo.DataLancamento.ToString("dd/MM/yyyy")</time></td>
+                                <td><div class="row-actions"><a asp-controller="Jogos" asp-action="Details" asp-route-id="@jogo.Id" aria-label="Detalhes de @jogo.Nome">Detalhes</a><a asp-controller="Jogos" asp-action="Edit" asp-route-id="@jogo.Id" aria-label="Editar @jogo.Nome">Editar</a><a class="delete-link" asp-controller="Jogos" asp-action="Delete" asp-route-id="@jogo.Id" aria-label="Excluir @jogo.Nome">Excluir</a></div></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <div class="empty-symbol" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="m7 15 17-8 17 8-17 8-17-8Zm0 0v19l17 8 17-8V15M24 23v19M15 11l17 8"/></svg><span>+</span></div>
+                @if (preview || jogos is null)
+                {
+                    <span class="eyebrow">ESPAÇO PARA NOVAS HISTÓRIAS</span><h3>Sua coleção começa aqui.</h3><p>Um espaço só seu para reunir jogos,<br /> guardar descobertas e organizar novas aventuras.</p><span class="empty-footnote">Sua biblioteca está sendo preparada.</span>
+                }
+                else if (pesquisando)
+                {
+                    <h3>Nenhum jogo encontrado</h3><p>Não encontramos jogos para “@pesquisa”.<br /> Experimente outro nome ou veja toda a coleção.</p><a class="btn btn-secondary" asp-controller="Jogos" asp-action="Index">Ver todos os jogos</a>
+                }
+                else
+                {
+                    <span class="eyebrow">ESPAÇO PARA NOVAS HISTÓRIAS</span><h3>O primeiro jogo é só o começo.</h3><p>Sua biblioteca ainda está vazia.<br /> Adicione seu primeiro jogo e comece a coleção.</p><a class="btn btn-primary" asp-controller="Jogos" asp-action="Create"><span class="plus" aria-hidden="true">+</span> Cadastrar primeiro jogo</a>
+                }
+            </div>
+        }
+        <div class="panel-footer"><span class="small-square" aria-hidden="true"></span><span>@(pesquisando ? "Pesquisa por nome" : "Uma coleção com a sua identidade")</span><span class="panel-footer-end">GAMEVAULT LIBRARY</span></div>
+    </div>
+</section>
