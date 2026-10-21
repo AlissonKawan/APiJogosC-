@@ -1,20 +1,20 @@
-# GameVault — Biblioteca de Jogos
+# GameVault — Catálogo de Jogos
 
 **Checkpoint 2 | ASP.NET Core MVC | FIAP — Análise e Desenvolvimento de Sistemas**  
 **Professor:** Dr. Marcel Stefan Wagner  
-**Tema:** Biblioteca de jogos com cadastro, consulta, edição, exclusão e pesquisa
+**Nome do projeto:** GameVault  
+**Tema do grupo:** Catálogo de Jogos
 
 ## Integrantes
 
-> **Atenção antes da entrega:** substituir os campos pendentes pelos dados reais da equipe. O enunciado exige de 3 a 6 integrantes e os nomes completos e RMs no início do README.
-
-| Nome completo | RM |
+| Nome | RM |
 |---|---|
 | Alisson Kawan Evangelista Silva | 567598 |
-| **[NOME COMPLETO DO INTEGRANTE 2]** | **[RM DO INTEGRANTE 2]** |
-| **[NOME COMPLETO DO INTEGRANTE 3]** | **[RM DO INTEGRANTE 3]** |
+| Eduardo Boni | 567236 |
+| Marcos Vinicius | 567214 |
+| Kenji Fernandez | 568156 |
 
-Caso o grupo tenha quatro, cinco ou seis integrantes, adicionar as linhas correspondentes.
+**Total de integrantes:** 4.
 
 ---
 
